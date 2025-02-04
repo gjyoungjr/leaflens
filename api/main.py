@@ -8,7 +8,7 @@ import tensorflow as tf
 
 app = FastAPI()
 
-model_name = "mash_net_2"
+model_name = "mash_net_3.keras"
 MODEL = tf.keras.models.load_model(f"../models/{model_name}")
 CLASS_NAMES = ['Early Blight', 'Late Blight', 'Healthy']
 
@@ -28,9 +28,14 @@ async def predict(
     img = read_file_as_img(await file.read())
     img_batch = np.expand_dims(img, 0)
     
-    prediction = MODEL.predict(img_batch)
+    predictions = MODEL.predict(img_batch)
+    predicted_class = CLASS_NAMES[np.argmax(predictions[0])]
+    confidence = np.max(predictions[0])
     
-    return {"filename": file.filename}
+    return {
+        'class': predicted_class,
+        'confidence': float(confidence)
+    }
 
 
 if __name__ == "__main__":
