@@ -6,6 +6,8 @@ from PIL import Image
 import tensorflow as tf 
 
 
+## TODO: Use tf serving for production
+
 app = FastAPI()
 
 model_name = "mash_net_3.keras"
