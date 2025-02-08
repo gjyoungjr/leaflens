@@ -6,10 +6,9 @@ from PIL import Image
 import tensorflow as tf 
 
 
-## TODO: Use tf serving for production
-
 app = FastAPI()
 
+endpoint = "http://localhost:8501/v1/models/mash_net_3:predict"
 model_name = "mash_net_3.keras"
 MODEL = tf.keras.models.load_model(f"../models/{model_name}")
 CLASS_NAMES = ['Early Blight', 'Late Blight', 'Healthy']
